@@ -1,4 +1,8 @@
-import { OPCUAServer} from 'node-opcua';
+const { 
+	OPCUAServer,
+	Variant,
+	DataType
+} = require('node-opcua');
 
 async function main(){
 	const server = new OPCUAServer({
@@ -38,6 +42,14 @@ async function main(){
 				value: variable1
 			})
 		}
+	})
+
+	// server start
+	server.start(()=>{
+		console.log("Server is now listening ... (Press Ctrl+C to stop)");
+		console.log("Port:", server.endpoints[0].port)
+		const endpointUrl = server.endpoints[0].endpointDescriptions()[0].endpointUrl;
+		console.log("the primvary server endpoint url is: ", endpointUrl)
 	})
 
 }
