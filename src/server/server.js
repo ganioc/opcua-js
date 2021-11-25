@@ -1,8 +1,8 @@
-const { 
+import { 
 	OPCUAServer,
 	Variant,
 	DataType
-} = require('node-opcua');
+} from 'node-opcua';
 
 async function main(){
 	const server = new OPCUAServer({

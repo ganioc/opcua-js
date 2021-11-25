@@ -5,7 +5,9 @@
   "main": "index.js",
   "type":"module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node ./src/server/server.js",
+    "client": "node ./src/client/client-es6.js"
   },
   "author": "",
   "license": "ISC",
