@@ -1,6 +1,7 @@
 import { 
 	OPCUAServer,
 } from 'node-opcua';
+import { addFakeDevice } from './objects/fake.device.js';
 import {addMyDevice} from './objects/my.device.js';
 
 const RESOURCE_PATH = "/UA/MyLittleServer"
@@ -27,6 +28,8 @@ async function main(){
 	console.log("namespace:", namespace.namespaceUri)
 
 	addMyDevice(addressSpace, namespace)
+
+	addFakeDevice(addressSpace, namespace)
 
 	// server start
 	server.start(()=>{

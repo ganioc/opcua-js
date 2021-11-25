@@ -3,6 +3,7 @@ import addMonitorFreeMem from './behaviors/monitor.freemem.js';
 import { readFreeMem } from './behaviors/read.freemem.js';
 import { readProductName } from './behaviors/read.productName.js';
 import { addSubsciption } from './behaviors/subscript.js';
+import { delay } from './util.js';
 
 const IP= "127.0.0.1";
 const PORT= "4334";
@@ -37,15 +38,6 @@ client.on("backoff", (retry,delayMs)=>{
       )
 })
 
-function delay(ms){
-    return new Promise((resolve)=>{
-        setTimeout(()=>{
-            console.log("Delay " + ms)
-            resolve()
-        }, ms)
-    })
-}
-
 async function main(){
     console.log("hello client-es6")
     // await delay(1000)
@@ -74,15 +66,7 @@ async function main(){
 
         // browse RootFolder/MyDevice/MyVariable1
         console.log("\nbrowse variable1")
-        // browseResult = await the_session.browse("MyDevice")
-        // console.log(browseResult.references)
-        // browseResult = await the_session.browse("ns=1;i=1001");
-        // console.log(browseResult)
-        // console.log("")
-        // for(const reference of browseResult.references){
-        //     console.log(reference.browseName.toString(),
-        //         reference.nodeId.toString())
-        // } 
+
         const var1 = await the_session.read({
             nodeId : "ns=1;i=1001",
             attributeId: AttributeIds.Value
@@ -101,13 +85,7 @@ async function main(){
                 }
             }
         })
-        
-        ////write({
-//nodeId: "ns=1;b=1020FFAA",
-            //attributeId: AttributeIds.Value,
-            // value: 13.0
 
-        // })
         console.log(var2Changed)
 
         console.log("\nbrowse variable2")
