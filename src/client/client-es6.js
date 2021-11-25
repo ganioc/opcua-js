@@ -1,4 +1,4 @@
-import {OPCUAClient, MessageSecurityMode, SecurityPolicy} from 'node-opcua';
+import {OPCUAClient,AttributeIds, MessageSecurityMode, SecurityPolicy} from 'node-opcua';
 import addMonitorFreeMem from './behaviors/monitor.freemem.js';
 import { readFreeMem } from './behaviors/read.freemem.js';
 import { readProductName } from './behaviors/read.productName.js';
@@ -72,9 +72,33 @@ async function main(){
                 reference.nodeId.toString())
         } 
 
+        // browse RootFolder/MyDevice/MyVariable1
+        console.log("\nbrowse variable1")
+        // browseResult = await the_session.browse("MyDevice")
+        // console.log(browseResult.references)
+        // browseResult = await the_session.browse("ns=1;i=1001");
+        // console.log(browseResult)
+        // console.log("")
+        // for(const reference of browseResult.references){
+        //     console.log(reference.browseName.toString(),
+        //         reference.nodeId.toString())
+        // } 
+        const var1 = await the_session.read({
+            nodeId : "ns=1;i=1001",
+            attributeId: AttributeIds.Value
+        })
+        console.log("variable1 value = ", var1.value.value)
+
+        console.log("\nbrowse variable2")
+        const var2 = await the_session.read({
+            nodeId : "ns=1;b=1020FFAA",
+            attributeId: AttributeIds.Value
+        })
+        console.log("variable2 is =  ", var2.value.value)
+        
         // read free memory
         let freeMemResult = await readFreeMem(the_session);
-        console.log("read free mem % = ", freeMemResult.toString())
+        console.log("\nread free mem % = ", freeMemResult.toString())
 
         the_subscription = await addSubsciption(the_session)
         the_subscription
@@ -99,7 +123,8 @@ async function main(){
             )
         })
 
-        await delay(10000);
+        await delay(3000);
+        
 
         console.log("subscription terminate")
         await the_subscription.terminate();
@@ -116,7 +141,7 @@ async function main(){
         console.log("session close")
         await the_session.close();
 
-        await delay(3000);
+        await delay(1000);
         console.log("done.")
 
         await client.disconnect();

@@ -26,29 +26,6 @@ async function main(){
 	console.log("addressSpace:", )
 	console.log("namespace:", namespace.namespaceUri)
 
-	// // declare a new object
-	// const device = namespace.addObject({
-	// 	organizedBy: addressSpace.rootFolder.objects,
-	// 	browseName: "MyDevice"
-	// })
-
-	// // add varriables
-	// let variable1 = 1;
-	// // emulate variable1 changing every 500ms
-	// setInterval(()=> {variable1 += 1;}, 500);
-
-	// namespace.addVariable({
-	// 	componentOf: device,
-	// 	browseName: "MyVariable1",
-	// 	dataType: "Double",
-	// 	value: {
-	// 		get: ()=> new Variant({
-	// 			dataType: DataType.Double,
-	// 			value: variable1
-	// 		})
-	// 	}
-	// })
-
 	addMyDevice(addressSpace, namespace)
 
 	// server start
