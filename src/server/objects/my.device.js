@@ -36,29 +36,29 @@ export  function addMyDevice(addressSpace, namespace){
         }
     })
     //
-    // namespace.addVariable({
-    //     componentOf: device,
-    //     nodeId: "ns=1;b=1020FFAA", // some opaque NodeId in namespace 4
-    //     browseName: "MyVariable2",
-    //     dataType: "Double",
-    //     value: {
-    //         get: () => new Variant({ 
-    //             dataType: DataType.Double, 
-    //             value: variable2 }),
-    //         set: (variant) => {
-    //             variable2 = parseFloat(variant.value);
-    //             return StatusCodes.Good;
-    //         }
-    //     }
-    // });
+    namespace.addVariable({
+        componentOf: device,
+        nodeId: "ns=1;b=1020FFAA", // some opaque NodeId in namespace 4
+        browseName: "MyVariable2",
+        dataType: "Double",
+        value: {
+            get: () => new Variant({ 
+                dataType: DataType.Double, 
+                value: variable2 }),
+            set: (variant) => {
+                variable2 = parseFloat(variant.value);
+                return StatusCodes.Good;
+            }
+        }
+    });
 
-    // namespace.addVariable({
-    //     componentOf: device,
-    //     nodeId: "s=free_memory", // a string nodeID
-    //     browseName: "FreeMemory",
-    //     dataType: "Double",
-    //     value: {
-    //         get: () => new Variant({ dataType: DataType.Double, value: available_memory() })
-    //     }
-    // })
+    namespace.addVariable({
+        componentOf: device,
+        nodeId: "s=free_memory", // a string nodeID
+        browseName: "FreeMemory",
+        dataType: "Double",
+        value: {
+            get: () => new Variant({ dataType: DataType.Double, value: available_memory() })
+        }
+    })
 }

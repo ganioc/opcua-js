@@ -1,4 +1,7 @@
 import {OPCUAClient, MessageSecurityMode, SecurityPolicy} from 'node-opcua';
+import addMonitorFreeMem from './behaviors/monitor.freemem.js';
+import { readFreeMem } from './behaviors/read.freemem.js';
+import { addSubsciption } from './behaviors/subscript.js';
 
 const IP= "127.0.0.1";
 const PORT= "4334";
@@ -13,7 +16,7 @@ const connectionStrategy = {
     initialDelay: 2000,
     maxRetry: 3
   };
-  const client = OPCUAClient.create({
+const client = OPCUAClient.create({
     // applicationName: "MyClient",
     connectionStrategy: connectionStrategy,
     // securityMode: MessageSecurityMode.None,
@@ -21,9 +24,18 @@ const connectionStrategy = {
     endpointMustExist: false
   });
 
-async function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+client.on("backoff", (retry,delayMs)=>{
+    console.log(
+        "still trying to connect to ",
+        endpointUrl,
+        ": retry =",
+        retry,
+        "next attempt in ",
+        delayMs / 1000,
+        "seconds"
+      )
+})
+
 function delay(ms){
     return new Promise((resolve)=>{
         setTimeout(()=>{
@@ -59,6 +71,41 @@ async function main(){
                 reference.nodeId.toString())
         } 
 
+        // read free memory
+        let freeMemResult = await readFreeMem(the_session);
+        console.log("read free mem % = ", freeMemResult.toString())
+
+        the_subscription = await addSubsciption(the_session)
+        the_subscription.on("started", () =>{
+            console.log(
+                "subscription started for 2 seconds - subscriptionId=",
+                   the_subscription.subscriptionId
+            )
+        })
+        .on("keepalive", function() {
+            console.log("subscription keepalive");
+          })
+        .on("terminated", function() {
+            console.log("terminated");
+          });
+
+        let monitoredItem = await addMonitorFreeMem(the_subscription)
+        monitoredItem.on("changed", function(dataValue){
+            console.log(
+                "monitored item changed:  % free mem = ",
+                   dataValue.value.value
+            )
+        })
+
+        await delay(10000);
+
+        console.log("subscription terminate")
+        await the_subscription.terminate();
+        console.log("session close")
+        await the_session.close();
+
+        await delay(3000);
+        console.log("done.")
 
         await client.disconnect();
         console.log("Client disconnected")
