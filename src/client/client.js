@@ -5,8 +5,10 @@ import { getNodeId, MAX_NUM_POINTS } from '../server/objects/fake.device.js';
 import { fakeSubscipt, readSequential } from './behaviors/read.fake.js';
 import { addSubsciption } from './behaviors/subscript.js';
 
-const IP= "127.0.0.1";
-const PORT= "4334";
+
+
+const IP= (process.env.HOST === undefined)?"127.0.0.1":process.env.HOST;
+const PORT= (process.env.PORT === undefined)?"4334":process.env.PORT;
 const URL =  "/UA/MyLittleServer";
 
 const endpointUrl = "opc.tcp://" 

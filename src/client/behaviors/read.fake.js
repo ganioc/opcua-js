@@ -33,7 +33,7 @@ export async function fakeSubscipt(num, subscription){
         )
         monitorItem.on("changed", function(dataValue){
             console.log(
-                "monitord item changed: ", dataValue.value.value
+                "monitored item changed: ", dataValue.value.value
             )
         })
     }
