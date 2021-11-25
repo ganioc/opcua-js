@@ -1,4 +1,4 @@
-import {OPCUAClient,AttributeIds, MessageSecurityMode, SecurityPolicy} from 'node-opcua';
+import {OPCUAClient,AttributeIds, MessageSecurityMode, SecurityPolicy, DataType} from 'node-opcua';
 import addMonitorFreeMem from './behaviors/monitor.freemem.js';
 import { readFreeMem } from './behaviors/read.freemem.js';
 import { readProductName } from './behaviors/read.productName.js';
@@ -88,6 +88,27 @@ async function main(){
             attributeId: AttributeIds.Value
         })
         console.log("variable1 value = ", var1.value.value)
+
+        console.log("\nchange variable2 to some random number")
+        const var2Changed = await the_session.write({
+            nodeId : "ns=1;b=1020FFAA",
+            attributeId: AttributeIds.Value,
+            indexRange: null,
+            value : {
+                value: {
+                    dataType: DataType.Double,
+                    value: 23.0 + Math.random(10)
+                }
+            }
+        })
+        
+        ////write({
+//nodeId: "ns=1;b=1020FFAA",
+            //attributeId: AttributeIds.Value,
+            // value: 13.0
+
+        // })
+        console.log(var2Changed)
 
         console.log("\nbrowse variable2")
         const var2 = await the_session.read({
