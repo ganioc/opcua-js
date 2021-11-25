@@ -9,7 +9,7 @@ export function getNodeId(num){
     return `ns=1;s=99902${(num).toString()}`
 }
 let counter = 0;
-const NUMS = 200;
+const NUMS = 20;
 setInterval(()=>{
     for(let i=0; i< NUMS; i++){
         VALUES[counter + i] = VALUES[counter + i]* 1.01
@@ -21,7 +21,7 @@ setInterval(()=>{
     counter = counter + NUMS;
     if(counter >= MAX_NUM_POINTS)
         counter = 0;
-}, 200);
+}, 1000);
 
 export function addFakeDevice(addressSpace, namespace){
     const device = namespace.addObject({

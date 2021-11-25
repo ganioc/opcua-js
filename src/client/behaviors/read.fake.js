@@ -1,6 +1,7 @@
-import { getNodeId } from "../../server/objects/fake.device.js"
+import { getNodeId, MAX_NUM_POINTS } from "../../server/objects/fake.device.js"
 import { AttributeIds , TimestampsToReturn, resolveNodeId} from 'node-opcua'
 
+let MonitorItems = new Array(MAX_NUM_POINTS);
 
 export async function readSequential(num, the_session){
     for(let i =0; i< num; i++){
@@ -31,10 +32,18 @@ export async function fakeSubscipt(num, subscription){
             monitoringParamaters,
             TimestampsToReturn.Both
         )
-        monitorItem.on("changed", function(dataValue){
-            console.log(
-                "monitored item changed: ", dataValue.value.value
-            )
-        })
+        MonitorItems[i] ={
+            item: monitorItem,
+            callback: ()=>{
+                const id = getNodeId();
+                return (dataValue)=>{
+                    console.log("nodeId: ", id)
+                    console.log(
+                        "monitored item changed: ", dataValue.value.value
+                    )
+                }
+            }
+        }
+        MonitorItems[i].item.on("changed", MonitorItems[i].callback())
     }
 }
