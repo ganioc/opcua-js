@@ -1,5 +1,7 @@
-const { OPCUAClient} = require("node-opcua");
-const async = require('async');
+import { OPCUAClient} from "node-opcua";
+// const async = require('async');
+import * as async from 'async';
+
 
 const endpointUrl = "opc.tcp://127.0.0.1" +":4334/UA/MyLittleServer";
 
