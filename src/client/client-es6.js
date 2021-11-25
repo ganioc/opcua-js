@@ -36,6 +36,7 @@ function delay(ms){
 async function main(){
     console.log("hello client-es6")
     // await delay(1000)
+    let the_session, the_subscription;
 
     try{
         console.log("connect to: ", endpointUrl)
@@ -45,6 +46,19 @@ async function main(){
             throw new Error("Connect failed")
         }
         console.log("Client connected")
+
+        the_session = await client.createSession();
+        // console.log(the_session)
+        console.log("createSession OK ", the_session.name)
+
+        // browse
+        console.log("browse the RootFolder")
+        let browseResult = await the_session.browse("RootFolder");
+        for(let reference of browseResult.references){
+            console.log(reference.browseName.toString(),
+                reference.nodeId.toString())
+        } 
+
 
         await client.disconnect();
         console.log("Client disconnected")

@@ -1,15 +1,17 @@
 import { 
 	OPCUAServer,
-	Variant,
-	DataType
 } from 'node-opcua';
+import {addMyDevice} from './objects/my.device.js';
+
+const RESOURCE_PATH = "/UA/MyLittleServer"
+const PRODUCT_NAME = "MySampleServer1"
 
 async function main(){
 	const server = new OPCUAServer({
 		port : 4334,
-		resourcePath: "/UA/MyLittleServer",
+		resourcePath: RESOURCE_PATH,
 		buildInfo: {
-			productName: "MySampleServer1",
+			productName: PRODUCT_NAME,
 			buildNumber: "7658",
 			buildDate: new Date(2020,5,2)
 		}
@@ -21,28 +23,33 @@ async function main(){
 	const addressSpace = server.engine.addressSpace;
 	const namespace = addressSpace.getOwnNamespace()
 
-	// declare a new object
-	const device = namespace.addObject({
-		organizedBy: addressSpace.rootFolder.objects,
-		browseName: "MyDevice"
-	})
+	console.log("addressSpace:", )
+	console.log("namespace:", namespace.namespaceUri)
 
-	// add varriables
-	let variable1 = 1;
-	// emulate variable1 changing every 500ms
-	setInterval(()=> {variable1 += 1;}, 500);
+	// // declare a new object
+	// const device = namespace.addObject({
+	// 	organizedBy: addressSpace.rootFolder.objects,
+	// 	browseName: "MyDevice"
+	// })
 
-	namespace.addVariable({
-		componentOf: device,
-		browseName: "MyVariable1",
-		dataType: "Double",
-		value: {
-			get: ()=> new Variant({
-				dataType: DataType.Double,
-				value: variable1
-			})
-		}
-	})
+	// // add varriables
+	// let variable1 = 1;
+	// // emulate variable1 changing every 500ms
+	// setInterval(()=> {variable1 += 1;}, 500);
+
+	// namespace.addVariable({
+	// 	componentOf: device,
+	// 	browseName: "MyVariable1",
+	// 	dataType: "Double",
+	// 	value: {
+	// 		get: ()=> new Variant({
+	// 			dataType: DataType.Double,
+	// 			value: variable1
+	// 		})
+	// 	}
+	// })
+
+	addMyDevice(addressSpace, namespace)
 
 	// server start
 	server.start(()=>{
