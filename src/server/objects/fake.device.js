@@ -10,6 +10,8 @@ export function getNodeId(num){
 }
 let counter = 0;
 const NUMS = 10;
+const DELAY_MS=200;
+
 if(NUMS > MAX_NUM_POINTS){
     console.error("Wrong params , ", MAX_NUM_POINTS, NUMS)
     process.exit(1)
@@ -27,7 +29,7 @@ export function fakeMakeChanges(){
         counter = counter + NUMS;
         if(counter >= MAX_NUM_POINTS)
             counter = 0;
-    }, 1000);
+    }, DELAY_MS);
 }
 
 
