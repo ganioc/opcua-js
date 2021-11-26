@@ -10,7 +10,7 @@ export function getNodeId(num){
 }
 let counter = 0;
 const NUMS = 10;
-const DELAY_MS=200;
+const DELAY_MS=100;
 
 if(NUMS > MAX_NUM_POINTS){
     console.error("Wrong params , ", MAX_NUM_POINTS, NUMS)
@@ -20,14 +20,14 @@ export function fakeMakeChanges(){
     console.log("fake changes start:")
     setInterval(()=>{
         for(let i=0; i< NUMS; i++){
-            VALUES[counter + i] = VALUES[counter + i]* 1.01
-            if(VALUES[counter + i] > 2*MAX_NUM_POINTS){
+            VALUES[counter + i] = VALUES[counter + i]* 20
+            if(VALUES[counter + i] > 200*MAX_NUM_POINTS){
                 VALUES[counter + i] = MAX_NUM_POINTS* Math.random()
             }
         }
     
-        counter = counter + NUMS*(10*Math.random());
-        if(counter >= MAX_NUM_POINTS)
+        counter = counter + NUMS*(Math.floor(50*Math.random()));
+        if(counter >= (MAX_NUM_POINTS - NUMS))
             counter = 0;
     }, DELAY_MS);
 }
