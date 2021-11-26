@@ -26,7 +26,7 @@ export function fakeMakeChanges(){
             }
         }
     
-        counter = counter + NUMS;
+        counter = counter + NUMS*(10*Math.random());
         if(counter >= MAX_NUM_POINTS)
             counter = 0;
     }, DELAY_MS);
