@@ -6,22 +6,30 @@ const DEVICE_NAME = "FakeDevice"
 let VALUES = new Array(MAX_NUM_POINTS)
 
 export function getNodeId(num){
-    return `ns=1;s=99902${(num).toString()}`
+    return `ns=1;s=00${(num).toString()}`
 }
 let counter = 0;
-const NUMS = 20;
-setInterval(()=>{
-    for(let i=0; i< NUMS; i++){
-        VALUES[counter + i] = VALUES[counter + i]* 1.01
-        if(VALUES[counter + i] > 2*MAX_NUM_POINTS){
-            VALUES[counter + i] = MAX_NUM_POINTS* Math.random()
+const NUMS = 10;
+if(NUMS > MAX_NUM_POINTS){
+    console.error("Wrong params , ", MAX_NUM_POINTS, NUMS)
+    process.exit(1)
+}
+export function fakeMakeChanges(){
+    console.log("fake changes start:")
+    setInterval(()=>{
+        for(let i=0; i< NUMS; i++){
+            VALUES[counter + i] = VALUES[counter + i]* 1.01
+            if(VALUES[counter + i] > 2*MAX_NUM_POINTS){
+                VALUES[counter + i] = MAX_NUM_POINTS* Math.random()
+            }
         }
-    }
+    
+        counter = counter + NUMS;
+        if(counter >= MAX_NUM_POINTS)
+            counter = 0;
+    }, 1000);
+}
 
-    counter = counter + NUMS;
-    if(counter >= MAX_NUM_POINTS)
-        counter = 0;
-}, 1000);
 
 export function addFakeDevice(addressSpace, namespace){
     const device = namespace.addObject({

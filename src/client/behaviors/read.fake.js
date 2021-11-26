@@ -2,6 +2,7 @@ import { getNodeId, MAX_NUM_POINTS } from "../../server/objects/fake.device.js"
 import { AttributeIds , TimestampsToReturn, resolveNodeId} from 'node-opcua'
 
 let MonitorItems = new Array(MAX_NUM_POINTS);
+let MonitorObjects = {}; // Use key value to index the object, 
 
 export async function readSequential(num, the_session){
     for(let i =0; i< num; i++){
@@ -35,7 +36,7 @@ export async function fakeSubscipt(num, subscription){
         MonitorItems[i] ={
             item: monitorItem,
             callback: ()=>{
-                const id = getNodeId();
+                const id = getNodeId(i);
                 return (dataValue)=>{
                     console.log("nodeId: ", id)
                     console.log(

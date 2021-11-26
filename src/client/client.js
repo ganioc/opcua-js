@@ -80,11 +80,11 @@ async function main(){
 
         await fakeSubscipt(MAX_NUM_POINTS,the_subscription)
 
-        await delay(60000);
+        await delay(20000);
 
         console.log("subscription terminate")
         await the_subscription.terminate();
-
+        
 
         endTime = new Date().getTime();
 

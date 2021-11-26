@@ -1,7 +1,7 @@
 import { 
 	OPCUAServer,
 } from 'node-opcua';
-import { addFakeDevice } from './objects/fake.device.js';
+import { addFakeDevice, fakeMakeChanges } from './objects/fake.device.js';
 import {addMyDevice} from './objects/my.device.js';
 
 const RESOURCE_PATH = "/UA/MyLittleServer"
@@ -38,6 +38,8 @@ async function main(){
 		const endpointUrl = server.endpoints[0].endpointDescriptions()[0].endpointUrl;
 		console.log("the primvary server endpoint url is: ", endpointUrl)
 	})
+
+	fakeMakeChanges();
 
 }
 
