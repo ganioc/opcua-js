@@ -9,7 +9,7 @@ export function getNodeId(num){
     return `ns=1;s=00${(num).toString()}`
 }
 let counter = 0;
-const NUMS = 10;
+const NUMS = 100;
 const DELAY_MS=100;
 
 if(NUMS > MAX_NUM_POINTS){

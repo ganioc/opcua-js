@@ -1,6 +1,7 @@
 import { 
 	OPCUAServer,
 } from 'node-opcua';
+import { delay } from '../client/util.js';
 import { addFakeDevice, fakeMakeChanges } from './objects/fake.device.js';
 import {addMyDevice} from './objects/my.device.js';
 
@@ -38,6 +39,11 @@ async function main(){
 		const endpointUrl = server.endpoints[0].endpointDescriptions()[0].endpointUrl;
 		console.log("the primvary server endpoint url is: ", endpointUrl)
 	})
+
+
+	await delay(30000);
+
+	console.log("start data changing")
 
 	fakeMakeChanges();
 
